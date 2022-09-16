@@ -15,6 +15,13 @@ void list_init_size(List ** dest, unsigned int length) {
     }
 }
 
+void list_init_values(List ** dest, unsigned int length, long long values[]) {
+    list_init(dest);
+    for (int i = 0; i < length; i++) {
+        list_append(dest, values[i]);
+    }
+}
+
 void list_append(List ** dest, long long value) {
     List * list = *dest;
     list->length++;
@@ -243,4 +250,11 @@ int list_compare(List ** src_first, List ** src_second) {
     }
 
     return 1;
+}
+
+void list_merge(List ** dest, List ** src) {
+    List * list = *src;
+    list_iter(list) {
+        list_append(dest, it->value);
+    }
 }

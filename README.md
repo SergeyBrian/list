@@ -9,7 +9,7 @@
 - [x] Get position by value
 - [x] Sort
 - [x] Compare lists
-- [ ] Merge, intersect
+- [x] Merge
 - [ ] Remove all
 - [ ] Count by value
 - [ ] Remove by value
