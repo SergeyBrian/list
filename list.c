@@ -162,3 +162,17 @@ char * list_to_str(List ** src) {
     result[len] = '\0';
     return result;
 }
+
+int list_index(List **src, long long int value) {
+    List * list = *src;
+    int pos = 0;
+    if (list->begin != NULL) {
+        Node * it = list->begin;
+        while (it->value == value || it->next != NULL) {
+            if (it->value == value) return pos;
+            it = it->next;
+            pos++;
+        }
+    }
+    return -1;
+}

@@ -29,6 +29,7 @@ void list_remove_first(List ** dest);
 void list_remove_last(List ** dest);
 void list_remove(List ** dest, unsigned int pos);
 char * list_to_str(List ** src);
+int list_index(List ** src, long long value);
 
 
 #endif

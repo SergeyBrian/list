@@ -27,6 +27,14 @@ int main() {
     print_list(list);
     list_remove(&list, 0);
     print_list(list);
+    list_append(&list, 8);
+    list_append(&list, 9);
+    list_append(&list, 10);
+    printf("Value 8 is at position %d\n", list_index(&list, 8));
+    printf("Value 9 is at position %d\n", list_index(&list, 9));
+    printf("Value 10 is at position %d\n", list_index(&list, 10));
+    printf("Value 14 is at position %d\n", list_index(&list, 14));
+    print_list(list);
 
     // Char examples
     List * list1;

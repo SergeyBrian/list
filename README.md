@@ -6,7 +6,7 @@
 - [x] Remove from begin, end and position
 - [x] Replace by position
 - [x] Convert to string
-- [ ] Get position by value
+- [x] Get position by value
 - [ ] Check if value in list
 - [ ] Sort
 - [ ] Remove all
