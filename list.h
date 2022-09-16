@@ -29,7 +29,7 @@ void list_append(List ** dest, long long value) {
     if (list->begin == NULL) {
         list->begin = (Node *) malloc(sizeof(Node));
         list->begin->value = value;
-	list->begin->next = NULL;
+        list->begin->next = NULL;
         return;
     }
 
@@ -54,17 +54,6 @@ int list_len(List ** src) {
     return len;
 }
 
-void list_replace(List ** dest, int pos, long long value) {
-    List * list = *dest;
-    int i = 0;
-    Node * it = list->begin;
-    while (i != pos) {
-        it = it->next;
-        i++;
-    }
-
-    it->value = value;
-}
 
 void list_prepend(List ** dest, long long value) {
     List * list = *dest;
@@ -82,8 +71,11 @@ void list_prepend(List ** dest, long long value) {
 }
 
 
-Node * list_get_node(List ** src, int pos) {
+Node * list_get_node(List ** src, unsigned int pos) {
     List * list = *src;
+    if (list->begin == NULL || pos >= list_len(src)) {
+        return NULL;
+    }
     Node * it = list->begin;
     int i = 0;
     while (it->next != NULL) {
@@ -96,13 +88,33 @@ Node * list_get_node(List ** src, int pos) {
     return it;
 }
 
-long long list_get(List ** src, int pos) {
+long long list_get(List ** src, unsigned int pos) {
     Node * it = list_get_node(src, pos);
     return it->value;
 }
 
-void list_insert(List ** dest, int pos, long long value) {
+void list_replace(List ** dest, unsigned int pos, long long value) {
+    Node * it = list_get_node(dest, pos);
+
+    it->value = value;
+}
+
+void list_insert(List ** dest, unsigned int pos, long long value) {
     List * list = *dest;
+
+    if (pos >= list_len(dest)) {
+        return;
+    }
+
+    if (list->begin == NULL || pos == (list_len(dest) - 1)) {
+        list_append(dest, value);
+        return;
+    }
+
+    if (pos == 0) {
+        list_prepend(dest, value);
+    }
+
     Node * new_element = (Node *) malloc(sizeof(Node));
 
     Node * prev_element = list_get_node(dest, pos-1);
@@ -111,6 +123,51 @@ void list_insert(List ** dest, int pos, long long value) {
     prev_element->next = new_element;
     new_element->next = next_element;
     new_element->value = value;
+}
+
+void list_remove_first(List ** dest) {
+    List * list = *dest;
+    if (list->begin == NULL) {
+        return;
+    }
+    if (list->begin->next == NULL) {
+        list->begin = NULL;
+        return;
+    }
+
+    Node * next_element = list->begin->next;
+    free(list->begin);
+    list->begin = next_element;
+}
+
+void list_remove_last(List ** dest) {
+    List * list = *dest;
+    if (list_len(dest) <= 1) {
+        list_remove_first(dest);
+        return;
+    }
+    Node * prev = list_get_node(dest, list_len(dest) - 2);
+    free(prev->next);
+    prev->next = NULL;
+}
+
+void list_remove(List ** dest, unsigned int pos) {
+    if (pos == 0) {
+        list_remove_first(dest);
+        return;
+    }
+
+    if (pos == list_len(dest) - 1) {
+        list_remove_last(dest);
+        return;
+    }
+
+    Node * prev_element = list_get_node(dest, pos-1);
+    Node * rm_element = prev_element->next;
+    Node * next_element = rm_element->next;
+
+    free(rm_element);
+    prev_element->next = next_element;
 }
 
 char * list_to_str(List ** src) {

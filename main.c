@@ -21,6 +21,12 @@ int main() {
     print_list(list);
     list_replace(&list, 1, 20);
     print_list(list);
+    list_remove(&list, 1);
+    print_list(list);
+    list_remove(&list, 1);
+    print_list(list);
+    list_remove(&list, 0);
+    print_list(list);
 
     // Char examples
     List * list1;
