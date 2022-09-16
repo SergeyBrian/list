@@ -14,6 +14,7 @@ struct Node {
 
 struct List {
     struct Node * begin;
+    unsigned int length;
 };
 
 typedef struct Node Node;

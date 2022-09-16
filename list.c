@@ -4,6 +4,7 @@ void list_init(List ** dest) {
     List * list = *dest;
     list = (List *) malloc(sizeof(List));
     list->begin = NULL;
+    list->length = 0;
     *dest = list;
 }
 
@@ -16,6 +17,7 @@ void list_init_size(List ** dest, unsigned int length) {
 
 void list_append(List ** dest, long long value) {
     List * list = *dest;
+    list->length++;
     if (list->begin == NULL) {
         list->begin = (Node *) malloc(sizeof(Node));
         list->begin->value = value;
@@ -33,15 +35,7 @@ void list_append(List ** dest, long long value) {
 }
 
 unsigned int list_len(List ** src) {
-    List * list = *src;
-    if (list->begin == NULL) return 0;
-    Node * it = list->begin;
-    int len = 1;
-    while (it->next != NULL) {
-        len++;
-        it = it->next;
-    }
-    return len;
+    return (*src)->length;
 }
 
 
@@ -52,6 +46,7 @@ void list_prepend(List ** dest, long long value) {
         return;
     }
 
+    list->length++;
     Node * first = list->begin;
     Node * new_element = (Node *) malloc(sizeof(Node));
 
@@ -106,6 +101,7 @@ void list_insert(List ** dest, unsigned int pos, long long value) {
         return;
     }
 
+    list->length++;
 
     Node * new_element = (Node *) malloc(sizeof(Node));
 
@@ -122,6 +118,7 @@ void list_remove_first(List ** dest) {
     if (list->begin == NULL) {
         return;
     }
+    list->length--;
     if (list->begin->next == NULL) {
         list->begin = NULL;
         return;
@@ -134,12 +131,19 @@ void list_remove_first(List ** dest) {
 
 void list_remove_last(List ** dest) {
     List * list = *dest;
+
+    if (list->begin == NULL) {
+        return;
+    }
+
     if (list_len(dest) <= 1) {
         list_remove_first(dest);
         return;
     }
+
     Node * prev = list_get_node(dest, list_len(dest) - 2);
     free(prev->next);
+    list->length--;
     prev->next = NULL;
 }
 
@@ -153,6 +157,8 @@ void list_remove(List ** dest, unsigned int pos) {
         list_remove_last(dest);
         return;
     }
+
+    (*dest)->length--;
 
     Node * prev_element = list_get_node(dest, pos-1);
     Node * rm_element = prev_element->next;
