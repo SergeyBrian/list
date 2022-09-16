@@ -7,6 +7,13 @@ void list_init(List ** dest) {
     *dest = list;
 }
 
+void list_init_size(List ** dest, unsigned int length) {
+    list_init(dest);
+    for (int i = 0; i < length; i++) {
+        list_append(dest, 0);
+    }
+}
+
 void list_append(List ** dest, long long value) {
     List * list = *dest;
     if (list->begin == NULL) {
@@ -177,4 +184,44 @@ int list_index(List **src, long long int value) {
         }
     }
     return -1;
+}
+
+void list_swap(List ** dest, unsigned int pos1, unsigned int pos2) {
+    List * list = *dest;
+
+    Node * first  = list_get_node(dest, pos1);
+    Node * second  = list_get_node(dest, pos2);
+    long long tmp = second->value;
+    second->value = first->value;
+    first->value = tmp;
+}
+
+void merge_sort(List ** dest, List ** buff, unsigned int l, unsigned int r, int desc) {
+    if (l < r) {
+        unsigned int m = (l + r) / 2;
+        merge_sort(dest, buff, l, m, desc);
+        merge_sort(dest, buff, m + 1, r, desc);
+
+        unsigned int k = l;
+        for (unsigned int i = l, j = m + 1; i <= m || j <= r; ) {
+            if (j > r || (i <= m && ((desc) ? 1 : -1) * list_get(dest, i) > ((desc) ? 1 : -1) * list_get(dest, j))) {
+                list_replace(buff, k, list_get(dest, i));
+                i++;
+            } else {
+                list_replace(buff, k, list_get(dest, j));
+                j++;
+            }
+            k++;
+        }
+        for (unsigned int i = l; i <= r; i++) {
+            list_replace(dest, i, list_get(buff, i));
+        }
+    }
+}
+
+void list_sort(List ** dest, int desc) {
+    List * list = *dest;
+    List * buffer;
+    list_init_size(&buffer, list_len(dest));
+    merge_sort(dest, &buffer, 0, list_len(dest) - 1, desc);
 }

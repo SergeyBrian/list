@@ -23,6 +23,13 @@ int test_list_init() {
     return 0;
 }
 
+int test_list_init_size() {
+    debug("list_init_size");
+    List * list;
+    list_init_size(&list, 10);
+    return list_len(&list) != 10;
+}
+
 int test_list_len() {
     debug("list_len");
     List * list;
@@ -139,3 +146,31 @@ int test_list_index() {
     return 0;
 }
 
+int test_list_swap() {
+    debug("list_swap");
+    List * list;
+    list_init(&list);
+    list_append(&list, 1);
+    list_append(&list, 2);
+    list_swap(&list, 0, 1);
+    if (list_get(&list, 0) != 2 || list_get(&list, 1) != 1) {
+        print_list(list);
+        return 1;
+    }
+    return 0;
+}
+
+int test_list_sort() {
+    debug("list_sort");
+    List * list;
+    list_init(&list);
+    list_append(&list, 5);
+    list_append(&list, 0);
+    list_append(&list, 8);
+    list_append(&list, 199);
+    list_append(&list, 12);
+    list_append(&list, 4);
+    list_sort(&list, 0);
+    print_list(list);
+    return 0;
+}

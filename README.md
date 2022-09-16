@@ -7,8 +7,7 @@
 - [x] Replace by position
 - [x] Convert to string
 - [x] Get position by value
-- [ ] Check if value in list
-- [ ] Sort
+- [x] Sort
 - [ ] Remove all
 - [ ] Count by value
 - [ ] Remove by value

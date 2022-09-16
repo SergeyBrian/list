@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 int test_list_init();
+int test_list_init_size();
 int test_list_len();
 int test_list_prepend();
 int test_list_append();
@@ -14,9 +15,12 @@ int test_list_remove_first();
 int test_list_remove_last();
 int test_list_remove();
 int test_list_index();
+int test_list_swap();
+int test_list_sort();
 
 static int (*tests[])() = {
         test_list_init,
+        test_list_init_size,
         test_list_append,
         test_list_len,
         test_list_prepend,
@@ -25,7 +29,9 @@ static int (*tests[])() = {
         test_list_remove_first,
         test_list_remove_last,
         test_list_remove,
-        test_list_index
+        test_list_index,
+        test_list_swap,
+        test_list_sort
 };
 
 #endif //TEST_LIST_H
