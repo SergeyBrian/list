@@ -17,6 +17,7 @@ int test_list_remove();
 int test_list_index();
 int test_list_swap();
 int test_list_sort();
+int test_list_compare();
 
 static int (*tests[])() = {
         test_list_init,
@@ -31,7 +32,8 @@ static int (*tests[])() = {
         test_list_remove,
         test_list_index,
         test_list_swap,
-        test_list_sort
+        test_list_sort,
+        test_list_compare
 };
 
 #endif //TEST_LIST_H

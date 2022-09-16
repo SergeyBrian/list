@@ -171,6 +171,30 @@ int test_list_sort() {
     list_append(&list, 12);
     list_append(&list, 4);
     list_sort(&list, 0);
-    print_list(list);
+    long long prev = -1;
+    list_iter(list) {
+        if (prev > it->value) {
+            print_list(list);
+            return 1;
+        }
+        prev = it->value;
+    }
     return 0;
+}
+
+int test_list_compare() {
+    debug("list_compare");
+    List * list1;
+    List * list2;
+
+    list_init(&list1);
+    list_init(&list2);
+
+    list_append(&list1, 1);
+    list_append(&list2, 1);
+    list_append(&list1, 2);
+    list_append(&list2, 2);
+    list_append(&list1, 3);
+    list_append(&list2, 3);
+    return !list_compare(&list1, &list2);
 }

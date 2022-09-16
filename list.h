@@ -6,6 +6,7 @@
 #define STR(x) #x
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define list_iter(list) for(Node * it = list->begin; it->next != NULL; it = it->next)
 
 struct Node {
     long long value;
@@ -36,6 +37,7 @@ char * list_to_str(List ** src);
 int list_index(List ** src, long long value);
 void list_swap(List ** dest, unsigned int pos1, unsigned int pos2);
 void list_sort(List ** dest, int desc);
+int list_compare(List ** src_first, List ** src_second);
 
 
 #endif

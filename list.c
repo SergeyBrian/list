@@ -231,3 +231,16 @@ void list_sort(List ** dest, int desc) {
     list_init_size(&buffer, list_len(dest));
     merge_sort(dest, &buffer, 0, list_len(dest) - 1, desc);
 }
+
+int list_compare(List ** src_first, List ** src_second) {
+    List * first = *src_first;
+    List * second = *src_second;
+
+    if (first->length != second->length) return 0;
+
+    for (int i = 0; i < first->length - 1; i++) {
+        if (list_get(src_first, i) != list_get(src_second, i)) return 0;
+    }
+
+    return 1;
+}
