@@ -85,18 +85,20 @@ void list_replace(List ** dest, unsigned int pos, long long value) {
 void list_insert(List ** dest, unsigned int pos, long long value) {
     List * list = *dest;
 
+    if (pos == 0) {
+        list_prepend(dest, value);
+        return;
+    }
+
     if (pos >= list_len(dest)) {
         return;
     }
 
-    if (list->begin == NULL || pos == (list_len(dest) - 1)) {
+    if (list->begin == NULL) {
         list_append(dest, value);
         return;
     }
 
-    if (pos == 0) {
-        list_prepend(dest, value);
-    }
 
     Node * new_element = (Node *) malloc(sizeof(Node));
 
