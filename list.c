@@ -8,14 +8,14 @@ void list_init(List ** dest) {
     *dest = list;
 }
 
-void list_init_size(List ** dest, unsigned int length) {
+void list_init_size(List ** dest, int length) {
     list_init(dest);
     for (int i = 0; i < length; i++) {
         list_append(dest, 0);
     }
 }
 
-void list_init_values(List ** dest, unsigned int length, long long values[]) {
+void list_init_values(List ** dest, int length, long long values[]) {
     list_init(dest);
     for (int i = 0; i < length; i++) {
         list_append(dest, values[i]);
@@ -41,7 +41,7 @@ void list_append(List ** dest, long long value) {
     it->next->next = NULL;
 }
 
-unsigned int list_len(List ** src) {
+int list_len(List ** src) {
     return (*src)->length;
 }
 
@@ -63,8 +63,11 @@ void list_prepend(List ** dest, long long value) {
 }
 
 
-Node * list_get_node(List ** src, unsigned int pos) {
+Node * list_get_node(List ** src, int pos) {
     List * list = *src;
+    if (pos < 0) {
+        pos = list->length + pos;
+    }
     if (list->begin == NULL || pos >= list_len(src)) {
         return NULL;
     }
@@ -80,18 +83,18 @@ Node * list_get_node(List ** src, unsigned int pos) {
     return it;
 }
 
-long long list_get(List ** src, unsigned int pos) {
+long long list_get(List ** src, int pos) {
     Node * it = list_get_node(src, pos);
     return it->value;
 }
 
-void list_replace(List ** dest, unsigned int pos, long long value) {
+void list_replace(List ** dest, int pos, long long value) {
     Node * it = list_get_node(dest, pos);
 
     it->value = value;
 }
 
-void list_insert(List ** dest, unsigned int pos, long long value) {
+void list_insert(List ** dest, int pos, long long value) {
     List * list = *dest;
 
     if (pos == 0) {
@@ -154,7 +157,7 @@ void list_remove_last(List ** dest) {
     prev->next = NULL;
 }
 
-void list_remove(List ** dest, unsigned int pos) {
+void list_remove(List ** dest, int pos) {
     if (pos == 0) {
         list_remove_first(dest);
         return;
@@ -177,7 +180,7 @@ void list_remove(List ** dest, unsigned int pos) {
 
 char * list_to_str(List ** src) {
     char * result = (char *) malloc(sizeof(char) * (list_len(src)+1));
-    unsigned int len = list_len(src);
+    int len = list_len(src);
     for (int i = 0; i < len; i++) {
         result[i] = (char) list_get(src, i);
     }
@@ -199,7 +202,7 @@ int list_index(List **src, long long int value) {
     return -1;
 }
 
-void list_swap(List ** dest, unsigned int pos1, unsigned int pos2) {
+void list_swap(List ** dest, int pos1, int pos2) {
     List * list = *dest;
 
     Node * first  = list_get_node(dest, pos1);
@@ -209,14 +212,14 @@ void list_swap(List ** dest, unsigned int pos1, unsigned int pos2) {
     first->value = tmp;
 }
 
-void merge_sort(List ** dest, List ** buff, unsigned int l, unsigned int r, int desc) {
+void merge_sort(List ** dest, List ** buff, int l, int r, int desc) {
     if (l < r) {
-        unsigned int m = (l + r) / 2;
+        int m = (l + r) / 2;
         merge_sort(dest, buff, l, m, desc);
         merge_sort(dest, buff, m + 1, r, desc);
 
-        unsigned int k = l;
-        for (unsigned int i = l, j = m + 1; i <= m || j <= r; ) {
+        int k = l;
+        for (int i = l, j = m + 1; i <= m || j <= r; ) {
             if (j > r || (i <= m && ((desc) ? 1 : -1) * list_get(dest, i) > ((desc) ? 1 : -1) * list_get(dest, j))) {
                 list_replace(buff, k, list_get(dest, i));
                 i++;
@@ -226,7 +229,7 @@ void merge_sort(List ** dest, List ** buff, unsigned int l, unsigned int r, int 
             }
             k++;
         }
-        for (unsigned int i = l; i <= r; i++) {
+        for (int i = l; i <= r; i++) {
             list_replace(dest, i, list_get(buff, i));
         }
     }

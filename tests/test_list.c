@@ -210,11 +210,13 @@ int test_list_merge() {
     list_init_values(&check, 6, (long long[]) {1,2,3,4,5,6});
 
     list_append(&list1, 1);
-    list_append(&list2, 4);
     list_append(&list1, 2);
-    list_append(&list2, 5);
     list_append(&list1, 3);
+
+    list_append(&list2, 4);
+    list_append(&list2, 5);
     list_append(&list2, 6);
+
     list_merge(&list1, &list2);
     return !list_compare(&check, &list1);
 }
