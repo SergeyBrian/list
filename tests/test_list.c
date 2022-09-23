@@ -314,3 +314,21 @@ int test_list_filter() {
     List * result_list = list_filter(&list, &is_even);
     return !list_compare(&result_list, &check);
 }
+
+int is_less_than_11(long long value) {
+    return value < 11;
+}
+
+int test_list_all() {
+    debug("list_all");
+    List * list;
+    list_init_values(&list, 10, (long long[]) {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+    return !list_all(&list, is_less_than_11);
+}
+
+int test_list_any() {
+    debug("list_any");
+    List * list;
+    list_init_values(&list, 10, (long long[]) {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+    return !list_any(&list, is_even);
+}

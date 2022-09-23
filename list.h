@@ -51,5 +51,7 @@ long long list_product(List ** src);
 long long list_min(List ** src);
 long long list_max(List ** src);
 List * list_filter(List ** src, int (* func)(long long value));
+int list_all(List ** src, int (* func)(long long value));
+int list_any(List ** src, int (* func)(long long value));
 
 #endif

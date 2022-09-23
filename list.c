@@ -383,3 +383,25 @@ List * list_filter(List ** src, int (* func)(long long value)) {
 
     return new_list;
 }
+
+int list_all(List ** src, int (* func)(long long value)) {
+    List * list = *src;
+    list_iter(list) {
+        if (!func(it->value)) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int list_any(List ** src, int (* func)(long long value)) {
+    List * list = *src;
+    list_iter(list) {
+        if (func(it->value)) {
+            return 1;
+        }
+    }
+
+    return 0;
+}

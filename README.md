@@ -17,4 +17,5 @@
 - [x] Sum, product
 - [x] Min, max
 - [x] Filter
-- [ ] All, any
+- [x] All, any
+- [ ] Map

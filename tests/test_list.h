@@ -28,6 +28,8 @@ int test_list_product();
 int test_list_min();
 int test_list_max();
 int test_list_filter();
+int test_list_all();
+int test_list_any();
 
 static int (*tests[])() = {
         test_list_init,
@@ -53,7 +55,9 @@ static int (*tests[])() = {
         test_list_product,
         test_list_min,
         test_list_max,
-        test_list_filter
+        test_list_filter,
+        test_list_all,
+        test_list_any
 };
 
 #endif //TEST_LIST_H
