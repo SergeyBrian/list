@@ -321,3 +321,25 @@ void list_reverse(List ** dest) {
         list_swap(dest, i, -1-i);
     }
 }
+
+long long list_sum(List ** src) {
+    List * list = *src;
+    long long result = 0;
+
+    list_iter(list) {
+        result += it->value;
+    }
+
+    return result;
+}
+
+long long list_product(List ** src) {
+    List * list = *src;
+    long long result = 1;
+
+    list_iter(list) {
+        result *= it->value;
+    }
+
+    return result;
+}

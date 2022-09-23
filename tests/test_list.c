@@ -272,3 +272,17 @@ int test_list_reverse() {
 
     return !list_compare(&list, &check);
 }
+
+int test_list_sum() {
+    debug("list_sum");
+    List * list;
+    list_init_values(&list, 5, (long long[]) { 1, 2, 3, 4, 5});
+    return list_sum(&list) != 15;
+}
+
+int test_list_product() {
+    debug("list_product");
+    List * list;
+    list_init_values(&list, 5, (long long[]) {1,2,3,4,5});
+    return list_product(&list) != 120;
+};

@@ -14,7 +14,7 @@
 - [x] Count by value
 - [x] Remove by value
 - [x] Reverse
-- [ ] Sum, product
+- [x] Sum, product
 - [ ] Min, max
 - [ ] Filter
 - [ ] Range
