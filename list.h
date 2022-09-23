@@ -50,5 +50,6 @@ long long list_sum(List ** src);
 long long list_product(List ** src);
 long long list_min(List ** src);
 long long list_max(List ** src);
+List * list_filter(List ** src, int (* func)(long long value));
 
 #endif

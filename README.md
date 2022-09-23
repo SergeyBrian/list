@@ -16,6 +16,5 @@
 - [x] Reverse
 - [x] Sum, product
 - [x] Min, max
-- [ ] Filter
-- [ ] Range
+- [x] Filter
 - [ ] All, any

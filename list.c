@@ -369,3 +369,17 @@ long long list_max(List ** src) {
 
     return result;
 }
+
+List * list_filter(List ** src, int (* func)(long long value)) {
+    List * src_list = *src;
+    List * new_list;
+    list_init(&new_list);
+
+    list_iter(src_list) {
+        if (func(it->value)) {
+            list_append(&new_list, it->value);
+        }
+    }
+
+    return new_list;
+}

@@ -300,3 +300,17 @@ int test_list_max() {
     list_init_values(&list, 10, (long long[]) {10, 9, 8, 1, 7, 6, 5, 4, 3, 2});
     return list_max(&list) != 10;
 }
+
+int is_even(long long value) {
+    return value % 2 == 0;
+}
+
+int test_list_filter() {
+    debug("list_filter");
+    List * list;
+    List * check;
+    list_init_values(&list, 10, (long long[]) {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+    list_init_values(&check, 5, (long long[]) {2, 4, 6, 8, 10});
+    List * result_list = list_filter(&list, &is_even);
+    return !list_compare(&result_list, &check);
+}
