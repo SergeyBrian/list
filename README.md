@@ -15,7 +15,7 @@
 - [x] Remove by value
 - [x] Reverse
 - [x] Sum, product
-- [ ] Min, max
+- [x] Min, max
 - [ ] Filter
 - [ ] Range
 - [ ] All, any

@@ -25,6 +25,8 @@ int test_list_remove_value();
 int test_list_reverse();
 int test_list_sum();
 int test_list_product();
+int test_list_min();
+int test_list_max();
 
 static int (*tests[])() = {
         test_list_init,
@@ -47,7 +49,9 @@ static int (*tests[])() = {
         test_list_count,
         test_list_reverse,
         test_list_sum,
-        test_list_product
+        test_list_product,
+        test_list_min,
+        test_list_max
 };
 
 #endif //TEST_LIST_H

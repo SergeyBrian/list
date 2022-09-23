@@ -286,3 +286,17 @@ int test_list_product() {
     list_init_values(&list, 5, (long long[]) {1,2,3,4,5});
     return list_product(&list) != 120;
 };
+
+int test_list_min() {
+    debug("list_min");
+    List * list;
+    list_init_values(&list, 10, (long long[]) {10, 9, 8, 1, 7, 6, 5, 4, 3, 2});
+    return list_min(&list) != 1;
+}
+
+int test_list_max() {
+    debug("list_max");
+    List * list;
+    list_init_values(&list, 10, (long long[]) {10, 9, 8, 1, 7, 6, 5, 4, 3, 2});
+    return list_max(&list) != 10;
+}

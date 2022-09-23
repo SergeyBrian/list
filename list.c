@@ -343,3 +343,29 @@ long long list_product(List ** src) {
 
     return result;
 }
+
+long long list_min(List ** src) {
+    List * list = *src;
+    long long result = LLONG_MAX;
+
+    list_iter(list) {
+        if (it->value < result) {
+            result = it->value;
+        }
+    }
+
+    return result;
+}
+
+long long list_max(List ** src) {
+    List * list = *src;
+    long long result = LLONG_MIN;
+
+    list_iter(list) {
+        if (it->value > result) {
+            result = it->value;
+        }
+    }
+
+    return result;
+}

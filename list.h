@@ -2,6 +2,7 @@
 #define LIST_H
 
 #include <stdlib.h>
+#include <limits.h>
 
 #define STR(x) #x
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -47,5 +48,7 @@ void list_remove_value(List ** dest, long long value, int count);
 void list_reverse(List ** dest);
 long long list_sum(List ** src);
 long long list_product(List ** src);
+long long list_min(List ** src);
+long long list_max(List ** src);
 
 #endif
