@@ -42,6 +42,7 @@ int list_compare(List ** src_first, List ** src_second);
 void list_merge(List ** dest, List ** src);
 void list_clear(List ** dest);
 void list_destroy(List ** dest);
+int list_count(List ** src, long long value);
 
 
 #endif

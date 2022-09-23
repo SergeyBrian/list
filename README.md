@@ -11,7 +11,7 @@
 - [x] Compare lists
 - [x] Merge
 - [x] Remove all
-- [ ] Count by value
+- [x] Count by value
 - [ ] Remove by value
 - [ ] Reverse
 - [ ] Sum, product

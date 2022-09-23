@@ -282,3 +282,15 @@ void list_destroy(List ** dest) {
     list_clear(dest);
     free(*dest);
 }
+
+int list_count(List ** src, long long value) {
+    List * list = *src;
+    int result = 0;
+    list_iter(list) {
+        if (it->value == value) {
+            result++;
+        }
+    }
+
+    return result;
+}

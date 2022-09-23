@@ -20,6 +20,7 @@ int test_list_sort();
 int test_list_compare();
 int test_list_merge();
 int test_list_clear();
+int test_list_count();
 
 static int (*tests[])() = {
         test_list_init,
@@ -38,6 +39,7 @@ static int (*tests[])() = {
         test_list_sort,
         test_list_compare,
         test_list_merge,
+        test_list_count
 };
 
 #endif //TEST_LIST_H

@@ -232,3 +232,13 @@ int test_list_clear() {
     list_clear(&list);
     return list->length;
 }
+
+int test_list_count() {
+    debug("list_count");
+    List * list;
+    list_init(&list);
+    list_append(&list, 1);
+    list_append(&list, 1);
+    list_append(&list, 1);
+    return list_count(&list, 1) != 3;
+}
