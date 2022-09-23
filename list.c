@@ -405,3 +405,10 @@ int list_any(List ** src, int (* func)(long long value)) {
 
     return 0;
 }
+
+void list_map(List ** dest, long long (* func)(long long value)) {
+    List * list = *dest;
+    list_iter(list) {
+        it->value = func(it->value);
+    }
+}

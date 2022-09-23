@@ -53,5 +53,6 @@ long long list_max(List ** src);
 List * list_filter(List ** src, int (* func)(long long value));
 int list_all(List ** src, int (* func)(long long value));
 int list_any(List ** src, int (* func)(long long value));
+void list_map(List ** dest, long long (* func)(long long value));
 
 #endif

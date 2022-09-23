@@ -18,4 +18,4 @@
 - [x] Min, max
 - [x] Filter
 - [x] All, any
-- [ ] Map
+- [x] Map

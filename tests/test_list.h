@@ -30,6 +30,7 @@ int test_list_max();
 int test_list_filter();
 int test_list_all();
 int test_list_any();
+int test_list_map();
 
 static int (*tests[])() = {
         test_list_init,
@@ -57,7 +58,8 @@ static int (*tests[])() = {
         test_list_max,
         test_list_filter,
         test_list_all,
-        test_list_any
+        test_list_any,
+        test_list_map
 };
 
 #endif //TEST_LIST_H

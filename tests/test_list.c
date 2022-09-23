@@ -332,3 +332,17 @@ int test_list_any() {
     list_init_values(&list, 10, (long long[]) {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
     return !list_any(&list, is_even);
 }
+
+long long multiply_by_2(long long x) {
+    return x*2;
+}
+
+int test_list_map() {
+    debug("list_map");
+    List * list;
+    List * check;
+    list_init_values(&list, 10, (long long[]) {1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+    list_init_values(&check, 10, (long long[]) {2, 4, 6, 8, 10, 12, 14, 16, 18, 20});
+    list_map(&list, multiply_by_2);
+    return !list_compare(&list, &check);
+}
