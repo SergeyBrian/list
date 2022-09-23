@@ -294,3 +294,24 @@ int list_count(List ** src, long long value) {
 
     return result;
 }
+
+// If count is 0, remove all occurrences, else remove first 'count' elements
+void list_remove_value(List ** dest, long long value, int count) {
+    int pos = 0;
+    if (count == 0) {
+        count = -1;
+    }
+    List * list = *dest;
+    list_iter(list) {
+        if (count == 0) {
+            return;
+        }
+        if (it->value == value) {
+            list_remove(dest, pos);
+            count--;
+            list_remove_value(dest, value, count);
+            return;
+        }
+        pos++;
+    }
+}

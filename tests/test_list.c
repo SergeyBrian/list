@@ -242,3 +242,22 @@ int test_list_count() {
     list_append(&list, 1);
     return list_count(&list, 1) != 3;
 }
+
+int test_list_remove_value() {
+    debug("list_remove_value");
+    List * list;
+    list_init(&list);
+    list_append(&list, 1);
+    list_append(&list, 2);
+    list_append(&list, 5);
+    list_append(&list, 1);
+    list_append(&list, 1);
+    list_remove_value(&list, 1, 1);
+    if (list_get(&list, 0) != 2) return 1;
+    list_remove_value(&list, 1, 0);
+    if (list_get(&list, -1) != 5) {
+        print_list(list);
+        return 2;
+    }
+    return 0;
+}

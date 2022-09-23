@@ -12,7 +12,7 @@
 - [x] Merge
 - [x] Remove all
 - [x] Count by value
-- [ ] Remove by value
+- [x] Remove by value
 - [ ] Reverse
 - [ ] Sum, product
 - [ ] Min, max
