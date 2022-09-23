@@ -44,6 +44,7 @@ void list_clear(List ** dest);
 void list_destroy(List ** dest);
 int list_count(List ** src, long long value);
 void list_remove_value(List ** dest, long long value, int count);
+void list_reverse(List ** dest);
 
 
 #endif

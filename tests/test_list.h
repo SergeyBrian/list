@@ -22,6 +22,7 @@ int test_list_merge();
 int test_list_clear();
 int test_list_count();
 int test_list_remove_value();
+int test_list_reverse();
 
 static int (*tests[])() = {
         test_list_init,
@@ -41,7 +42,8 @@ static int (*tests[])() = {
         test_list_sort,
         test_list_compare,
         test_list_merge,
-        test_list_count
+        test_list_count,
+        test_list_reverse
 };
 
 #endif //TEST_LIST_H

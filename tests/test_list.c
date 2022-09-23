@@ -261,3 +261,14 @@ int test_list_remove_value() {
     }
     return 0;
 }
+
+int test_list_reverse() {
+    debug("list_reverse");
+    List * list;
+    List * check;
+    list_init_values(&list, 5, (long long[]) {1, 2, 3, 4, 5});
+    list_init_values(&check, 5, (long long[]) {5, 4, 3, 2, 1});
+    list_reverse(&list);
+
+    return !list_compare(&list, &check);
+}

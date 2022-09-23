@@ -13,7 +13,7 @@
 - [x] Remove all
 - [x] Count by value
 - [x] Remove by value
-- [ ] Reverse
+- [x] Reverse
 - [ ] Sum, product
 - [ ] Min, max
 - [ ] Filter

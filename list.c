@@ -315,3 +315,9 @@ void list_remove_value(List ** dest, long long value, int count) {
         pos++;
     }
 }
+
+void list_reverse(List ** dest) {
+    for (int i = 0; i < (*dest)->length / 2; i++) {
+        list_swap(dest, i, -1-i);
+    }
+}
