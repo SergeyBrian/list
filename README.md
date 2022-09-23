@@ -10,7 +10,7 @@
 - [x] Sort
 - [x] Compare lists
 - [x] Merge
-- [ ] Remove all
+- [x] Remove all
 - [ ] Count by value
 - [ ] Remove by value
 - [ ] Reverse

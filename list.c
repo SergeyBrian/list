@@ -261,3 +261,24 @@ void list_merge(List ** dest, List ** src) {
         list_append(dest, it->value);
     }
 }
+
+void destroy_node(Node * node) {
+    if (node->next == NULL) {
+        free(node);
+        return;
+    }
+    destroy_node(node->next);
+    node->next = NULL;
+}
+
+void list_clear(List ** dest) {
+    List * list = *dest;
+    destroy_node(list->begin);
+    list->begin = NULL;
+    list->length = 0;
+}
+
+void list_destroy(List ** dest) {
+    list_clear(dest);
+    free(*dest);
+}

@@ -220,3 +220,15 @@ int test_list_merge() {
     list_merge(&list1, &list2);
     return !list_compare(&check, &list1);
 }
+
+int test_list_clear() {
+    debug("list_clear");
+    List * list;
+    list_init(&list);
+    list_append(&list, 1);
+    list_append(&list, 2);
+    list_append(&list, 3);
+    list_append(&list, 4);
+    list_clear(&list);
+    return list->length;
+}

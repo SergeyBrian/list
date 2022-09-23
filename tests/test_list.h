@@ -19,11 +19,13 @@ int test_list_swap();
 int test_list_sort();
 int test_list_compare();
 int test_list_merge();
+int test_list_clear();
 
 static int (*tests[])() = {
         test_list_init,
         test_list_init_size,
         test_list_append,
+        test_list_clear,
         test_list_len,
         test_list_prepend,
         test_list_insert,
@@ -35,7 +37,7 @@ static int (*tests[])() = {
         test_list_swap,
         test_list_sort,
         test_list_compare,
-        test_list_merge
+        test_list_merge,
 };
 
 #endif //TEST_LIST_H

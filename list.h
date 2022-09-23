@@ -40,6 +40,8 @@ void list_swap(List ** dest, int pos1, int pos2);
 void list_sort(List ** dest, int desc);
 int list_compare(List ** src_first, List ** src_second);
 void list_merge(List ** dest, List ** src);
+void list_clear(List ** dest);
+void list_destroy(List ** dest);
 
 
 #endif
