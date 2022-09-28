@@ -138,8 +138,8 @@ int test_list_index() {
     list_init(&list);
     list_append(&list, 5);
     list_append(&list, 2);
-    list_append(&list, 7);
-    if (list_get(&list, 1) != 2) {
+    list_append(&list, 1);
+    if (list_index(&list, 2) != 1) {
         print_list(list);
         return 1;
     }
