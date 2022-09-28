@@ -8,6 +8,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define list_iter(list) for(Node * it = list->begin; it != NULL; it = it->next)
+#define cast(type, n) (type) n
 
 struct Node {
     long long value;
