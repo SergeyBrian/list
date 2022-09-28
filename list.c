@@ -1,30 +1,30 @@
 #include "list.h"
 
-void list_init(List ** dest) {
-    List * list = *dest;
-    list = (List *) malloc(sizeof(List));
+List * list_init() {
+    List * list = (List *) malloc(sizeof(List));
     list->begin = NULL;
     list->length = 0;
     list->sorted = 1;
-    *dest = list;
+    return list;
 }
 
-void list_init_size(List ** dest, int length) {
-    list_init(dest);
+List * list_init_size(int length) {
+    List * list = list_init();
     for (int i = 0; i < length; i++) {
-        list_append(dest, 0);
+        list_append(list, 0);
     }
+    return list;
 }
 
-void list_init_values(List ** dest, int length, long long values[]) {
-    list_init(dest);
+List * list_init_values(int length, long long values[]) {
+    List * list = list_init();
     for (int i = 0; i < length; i++) {
-        list_append(dest, values[i]);
+        list_append(list, values[i]);
     }
+    return list;
 }
 
-void list_append(List ** dest, long long value) {
-    List * list = *dest;
+void list_append(List * list, long long value) {
     list->length++;
     if (list->begin == NULL) {
         list->begin = (Node *) malloc(sizeof(Node));
@@ -42,19 +42,18 @@ void list_append(List ** dest, long long value) {
     it->next->next = NULL;
 
     if (!list->sorted) return;
-    list->sorted = ((list->sorted == 1 && it->value < it->next->value) ||
-            (list->sorted == -1 && it->value > it->next->value)) ? list->sorted : 0;
+    list->sorted = ((list->sorted == 1 & it->value < it->next->value) ||
+            (list->sorted == -1 & it->value > it->next->value)) ? list->sorted : 0;
 }
 
-int list_len(List ** src) {
-    return (*src)->length;
+int list_len(List * list) {
+    return list->length;
 }
 
 
-void list_prepend(List ** dest, long long value) {
-    List * list = *dest;
+void list_prepend(List * list, long long value) {
     if (list->begin == NULL) {
-        list_append(dest, value);
+        list_append(list, value);
         return;
     }
 
@@ -67,17 +66,16 @@ void list_prepend(List ** dest, long long value) {
     new_element->next = first;
 
     if (!list->sorted) return;
-    list->sorted = ((list->sorted == 1 && list->begin->value < list->begin->next->value) ||
-            (list->sorted == -1 && list->begin->value > list->begin->next->value)) ? list->sorted : 0;
+    list->sorted = ((list->sorted == 1 & list->begin->value < list->begin->next->value) ||
+            (list->sorted == -1 & list->begin->value > list->begin->next->value)) ? list->sorted : 0;
 }
 
 
-Node * list_get_node(List ** src, int pos) {
-    List * list = *src;
+Node * list_get_node(List * list, int pos) {
     if (pos < 0) {
         pos = list->length + pos;
     }
-    if (list->begin == NULL || pos >= list_len(src)) {
+    if (list->begin == NULL || pos >= list_len(list)) {
         return NULL;
     }
     int i = 0;
@@ -92,28 +90,27 @@ Node * list_get_node(List ** src, int pos) {
     return node;
 }
 
-long long list_get(List ** src, int pos) {
-    return list_get_node(src, pos)->value;
+long long list_get(List * list, int pos) {
+    return list_get_node(list, pos)->value;
 }
 
-void list_replace(List ** dest, int pos, long long value) {
-    list_get_node(dest, pos)->value = value;
+void list_replace(List * list, int pos, long long value) {
+    list_get_node(list, pos)->value = value;
 }
 
-void list_insert(List ** dest, int pos, long long value) {
-    List * list = *dest;
+void list_insert(List * list, int pos, long long value) {
 
     if (pos == 0) {
-        list_prepend(dest, value);
+        list_prepend(list, value);
         return;
     }
 
-    if (pos >= list_len(dest)) {
+    if (pos >= list_len(list)) {
         return;
     }
 
     if (list->begin == NULL) {
-        list_append(dest, value);
+        list_append(list, value);
         return;
     }
 
@@ -121,7 +118,7 @@ void list_insert(List ** dest, int pos, long long value) {
 
     Node * new_element = (Node *) malloc(sizeof(Node));
 
-    Node * prev_element = list_get_node(dest, pos-1);
+    Node * prev_element = list_get_node(list, pos-1);
     Node * next_element = prev_element->next;
 
     prev_element->next = new_element;
@@ -129,12 +126,11 @@ void list_insert(List ** dest, int pos, long long value) {
     new_element->value = value;
 
     if (!list->sorted) return;
-    list->sorted = ((list->sorted == 1 && prev_element->value < new_element->value && new_element->value < next_element->value) ||
-            (list->sorted == -1 && prev_element->value > new_element->value && new_element->value > next_element->value)) ? list->sorted : 0;
+    list->sorted = ((list->sorted == 1 & prev_element->value < new_element->value & new_element->value < next_element->value) ||
+            (list->sorted == -1 & prev_element->value > new_element->value & new_element->value > next_element->value)) ? list->sorted : 0;
 }
 
-void list_remove_first(List ** dest) {
-    List * list = *dest;
+void list_remove_first(List * list) {
     if (list->begin == NULL) {
         return;
     }
@@ -149,38 +145,36 @@ void list_remove_first(List ** dest) {
     list->begin = next_element;
 }
 
-void list_remove_last(List ** dest) {
-    List * list = *dest;
-
+void list_remove_last(List * list) {
     if (list->begin == NULL) {
         return;
     }
 
-    if (list_len(dest) <= 1) {
-        list_remove_first(dest);
+    if (list_len(list) <= 1) {
+        list_remove_first(list);
         return;
     }
 
-    Node * prev = list_get_node(dest, list_len(dest) - 2);
+    Node * prev = list_get_node(list, list_len(list) - 2);
     free(prev->next);
     list->length--;
     prev->next = NULL;
 }
 
-void list_remove(List ** dest, int pos) {
+void list_remove(List * list, int pos) {
     if (pos == 0) {
-        list_remove_first(dest);
+        list_remove_first(list);
         return;
     }
 
-    if (pos == list_len(dest) - 1) {
-        list_remove_last(dest);
+    if (pos == list_len(list) - 1) {
+        list_remove_last(list);
         return;
     }
 
-    (*dest)->length--;
+    list->length--;
 
-    Node * prev_element = list_get_node(dest, pos-1);
+    Node * prev_element = list_get_node(list, pos-1);
     Node * rm_element = prev_element->next;
     Node * next_element = rm_element->next;
 
@@ -188,18 +182,17 @@ void list_remove(List ** dest, int pos) {
     prev_element->next = next_element;
 }
 
-char * list_to_str(List ** src) {
-    char * result = (char *) malloc(sizeof(char) * (list_len(src)+1));
-    int len = list_len(src);
+char * list_to_str(List * list) {
+    char * result = (char *) malloc(sizeof(char) * (list_len(list)+1));
+    int len = list_len(list);
     for (int i = 0; i < len; i++) {
-        result[i] = (char) list_get(src, i);
+        result[i] = (char) list_get(list, i);
     }
     result[len] = '\0';
     return result;
 }
 
-int list_index(List **src, long long int value) {
-    List * list = *src;
+int list_index(List *list, long long int value) {
     if (list->begin == NULL) return -1;
 
     int pos = 0;
@@ -220,66 +213,63 @@ int list_index(List **src, long long int value) {
     return -1;
 }
 
-void list_swap(List ** dest, int pos1, int pos2) {
-    List * list = *dest;
+void list_swap(List * list, int pos1, int pos2) {
 
-    Node * first  = list_get_node(dest, pos1);
-    Node * second  = list_get_node(dest, pos2);
+    Node * first  = list_get_node(list, pos1);
+    Node * second  = list_get_node(list, pos2);
     long long tmp = second->value;
     second->value = first->value;
     first->value = tmp;
     list->sorted = 0;
 }
 
-void merge_sort(List ** dest, List ** buff, int l, int r, int desc) {
+void merge_sort(List * list, List * buff, int l, int r, int desc) {
     if (l < r) {
         int m = (l + r) / 2;
-        merge_sort(dest, buff, l, m, desc);
-        merge_sort(dest, buff, m + 1, r, desc);
+        merge_sort(list, buff, l, m, desc);
+        merge_sort(list, buff, m + 1, r, desc);
 
         int k = l;
         for (int i = l, j = m + 1; i <= m || j <= r;) {
-            if (j > r || (i <= m && ((desc) ? 1 : -1) * list_get(dest, i) > ((desc) ? 1 : -1) * list_get(dest, j))) {
-                list_replace(buff, k, list_get(dest, i));
+            if (j > r || (i <= m & ((desc) ? 1 : -1) * list_get(list, i) > ((desc) ? 1 : -1) * list_get(list, j))) {
+                list_replace(buff, k, list_get(list, i));
                 i++;
             } else {
-                list_replace(buff, k, list_get(dest, j));
+                list_replace(buff, k, list_get(list, j));
                 j++;
             }
             k++;
         }
         for (int i = l; i <= r; i++) {
-            list_replace(dest, i, list_get(buff, i));
+            list_replace(list, i, list_get(buff, i));
         }
     }
 }
 
-void list_sort(List ** dest, int desc) {
-    List * list = *dest;
-    List * buffer;
-    list_init_size(&buffer, list_len(dest));
-    merge_sort(dest, &buffer, 0, list_len(dest) - 1, desc);
+void list_sort(List * list, int desc) {
+    List * buffer = list_init_size(list_len(list));
+    merge_sort(list, buffer, 0, list_len(list) - 1, desc);
     list->sorted = (desc) ? -1 : 1;
 }
 
-int list_compare(List ** src_first, List ** src_second) {
-    List * first = *src_first;
-    List * second = *src_second;
+int list_compare(List * list_first, List * list_second) {
+    List * first = list_first;
+    List * second = list_second;
 
     if (first->length != second->length) return 0;
 
     for (int i = 0; i < first->length - 1; i++) {
-        if (list_get(src_first, i) != list_get(src_second, i)) return 0;
+        if (list_get(list_first, i) != list_get(list_second, i)) return 0;
     }
 
     return 1;
 }
 
-void list_merge(List ** dest, List ** src) {
-    List * list1 = *dest;
-    List * list2 = *src;
+void list_merge(List * dest, List * src) {
+    List * list1 = dest;
+    List * list2 = src;
     list_iter(list2) {
-        list_append(dest, it->value);
+        list_append(list1, it->value);
     }
 
     if (list1->sorted == list2->sorted != 0) {
@@ -303,21 +293,19 @@ void destroy_node(Node * node) {
     node->next = NULL;
 }
 
-void list_clear(List ** dest) {
-    List * list = *dest;
+void list_clear(List * list) {
     destroy_node(list->begin);
     list->begin = NULL;
     list->length = 0;
     list->sorted = 1;
 }
 
-void list_destroy(List ** dest) {
-    list_clear(dest);
-    free(*dest);
+void list_destroy(List * list) {
+    list_clear(list);
+    free(list);
 }
 
-int list_count(List ** src, long long value) {
-    List * list = *src;
+int list_count(List * list, long long value) {
     int result = 0;
     list_iter(list) {
         if (it->value == value) {
@@ -329,37 +317,34 @@ int list_count(List ** src, long long value) {
 }
 
 // If count is 0, remove all occurrences, else remove first 'count' elements
-void list_remove_value(List ** dest, long long value, int count) {
+void list_remove_value(List * list, long long value, int count) {
     int pos = 0;
     if (count == 0) {
         count = -1;
     }
-    List * list = *dest;
     list_iter(list) {
         if (count == 0) {
             return;
         }
         if (it->value == value) {
-            list_remove(dest, pos);
+            list_remove(list, pos);
             count--;
-            list_remove_value(dest, value, count);
+            list_remove_value(list, value, count);
             return;
         }
         pos++;
     }
 }
 
-void list_reverse(List ** dest) {
-    List * list = *dest;
+void list_reverse(List * list) {
     int pre_sorted_flag = list->sorted;
-    for (int i = 0; i < (*dest)->length / 2; i++) {
-        list_swap(dest, i, -1-i);
+    for (int i = 0; i < list->length / 2; i++) {
+        list_swap(list, i, -1-i);
     }
     list->sorted = pre_sorted_flag * -1;
 }
 
-long long list_sum(List ** src) {
-    List * list = *src;
+long long list_sum(List * list) {
     long long result = 0;
 
     list_iter(list) {
@@ -369,8 +354,7 @@ long long list_sum(List ** src) {
     return result;
 }
 
-long long list_product(List ** src) {
-    List * list = *src;
+long long list_product(List * list) {
     long long result = 1;
 
     list_iter(list) {
@@ -380,8 +364,7 @@ long long list_product(List ** src) {
     return result;
 }
 
-long long list_min(List ** src) {
-    List * list = *src;
+long long list_min(List * list) {
     long long result = LLONG_MAX;
 
     list_iter(list) {
@@ -393,8 +376,7 @@ long long list_min(List ** src) {
     return result;
 }
 
-long long list_max(List ** src) {
-    List * list = *src;
+long long list_max(List * list) {
     long long result = LLONG_MIN;
 
     list_iter(list) {
@@ -406,22 +388,19 @@ long long list_max(List ** src) {
     return result;
 }
 
-List * list_filter(List ** src, int (* func)(long long value)) {
-    List * src_list = *src;
-    List * new_list;
-    list_init(&new_list);
+List * list_filter(List * list, int (* func)(long long value)) {
+    List * new_list = list_init();
 
-    list_iter(src_list) {
+    list_iter(list) {
         if (func(it->value)) {
-            list_append(&new_list, it->value);
+            list_append(new_list, it->value);
         }
     }
 
     return new_list;
 }
 
-int list_all(List ** src, int (* func)(long long value)) {
-    List * list = *src;
+int list_all(List * list, int (* func)(long long value)) {
     list_iter(list) {
         if (!func(it->value)) {
             return 0;
@@ -431,8 +410,7 @@ int list_all(List ** src, int (* func)(long long value)) {
     return 1;
 }
 
-int list_any(List ** src, int (* func)(long long value)) {
-    List * list = *src;
+int list_any(List * list, int (* func)(long long value)) {
     list_iter(list) {
         if (func(it->value)) {
             return 1;
@@ -442,8 +420,7 @@ int list_any(List ** src, int (* func)(long long value)) {
     return 0;
 }
 
-void list_map(List ** dest, long long (* func)(long long value)) {
-    List * list = *dest;
+void list_map(List * list, long long (* func)(long long value)) {
     list_iter(list) {
         it->value = func(it->value);
     }
