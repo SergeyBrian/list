@@ -346,3 +346,21 @@ int test_list_map() {
     list_map(&list, multiply_by_2);
     return !list_compare(&list, &check);
 }
+
+int test_sort_flag() {
+    debug("sorted flag");
+    List * list;
+    list_init_values(&list, 5, (long long[]) {1, 2, 3, 4, 5});
+    if (list->sorted != 1) return 1;
+    list_reverse(&list);
+    if (list->sorted != -1) return 2;
+    list_append(&list, 0);
+    if (list->sorted != -1) return 3;
+    list_prepend(&list, 7);
+    if (list->sorted != -1) return 4;
+    list_insert(&list, 1, 6);
+    if (list->sorted != -1) return 5;
+    list_append(&list, 4);
+    if (list->sorted != 0) return 6;
+    return 0;
+}

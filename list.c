@@ -5,6 +5,7 @@ void list_init(List ** dest) {
     list = (List *) malloc(sizeof(List));
     list->begin = NULL;
     list->length = 0;
+    list->sorted = 1;
     *dest = list;
 }
 
@@ -39,6 +40,10 @@ void list_append(List ** dest, long long value) {
     it->next = (Node *) malloc(sizeof(Node));
     it->next->value = value;
     it->next->next = NULL;
+
+    if (!list->sorted) return;
+    list->sorted = ((list->sorted == 1 && it->value < it->next->value) ||
+            (list->sorted == -1 && it->value > it->next->value)) ? list->sorted : 0;
 }
 
 int list_len(List ** src) {
@@ -60,6 +65,10 @@ void list_prepend(List ** dest, long long value) {
     list->begin = new_element;
     new_element->value = value;
     new_element->next = first;
+
+    if (!list->sorted) return;
+    list->sorted = ((list->sorted == 1 && list->begin->value < list->begin->next->value) ||
+            (list->sorted == -1 && list->begin->value > list->begin->next->value)) ? list->sorted : 0;
 }
 
 
@@ -118,6 +127,10 @@ void list_insert(List ** dest, int pos, long long value) {
     prev_element->next = new_element;
     new_element->next = next_element;
     new_element->value = value;
+
+    if (!list->sorted) return;
+    list->sorted = ((list->sorted == 1 && prev_element->value < new_element->value && new_element->value < next_element->value) ||
+            (list->sorted == -1 && prev_element->value > new_element->value && new_element->value > next_element->value)) ? list->sorted : 0;
 }
 
 void list_remove_first(List ** dest) {
@@ -206,6 +219,7 @@ void list_swap(List ** dest, int pos1, int pos2) {
     long long tmp = second->value;
     second->value = first->value;
     first->value = tmp;
+    list->sorted = 0;
 }
 
 void merge_sort(List ** dest, List ** buff, int l, int r, int desc) {
@@ -215,7 +229,7 @@ void merge_sort(List ** dest, List ** buff, int l, int r, int desc) {
         merge_sort(dest, buff, m + 1, r, desc);
 
         int k = l;
-        for (int i = l, j = m + 1; i <= m || j <= r; ) {
+        for (int i = l, j = m + 1; i <= m || j <= r;) {
             if (j > r || (i <= m && ((desc) ? 1 : -1) * list_get(dest, i) > ((desc) ? 1 : -1) * list_get(dest, j))) {
                 list_replace(buff, k, list_get(dest, i));
                 i++;
@@ -236,6 +250,7 @@ void list_sort(List ** dest, int desc) {
     List * buffer;
     list_init_size(&buffer, list_len(dest));
     merge_sort(dest, &buffer, 0, list_len(dest) - 1, desc);
+    list->sorted = (desc) ? -1 : 1;
 }
 
 int list_compare(List ** src_first, List ** src_second) {
@@ -252,9 +267,21 @@ int list_compare(List ** src_first, List ** src_second) {
 }
 
 void list_merge(List ** dest, List ** src) {
-    List * list = *src;
-    list_iter(list) {
+    List * list1 = *dest;
+    List * list2 = *src;
+    list_iter(list2) {
         list_append(dest, it->value);
+    }
+
+    if (list1->sorted == list2->sorted != 0) {
+        switch (list1->sorted) {
+            case -1:
+                list1->sorted = (list_get(dest, -1) > list_get(src, 0)) ? list1->sorted : 0;
+                break;
+            case 1:
+                list1->sorted = (list_get(dest, -1) < list_get(src, 0)) ? list1->sorted : 0;
+                break;
+        }
     }
 }
 
@@ -272,6 +299,7 @@ void list_clear(List ** dest) {
     destroy_node(list->begin);
     list->begin = NULL;
     list->length = 0;
+    list->sorted = 1;
 }
 
 void list_destroy(List ** dest) {
@@ -313,9 +341,12 @@ void list_remove_value(List ** dest, long long value, int count) {
 }
 
 void list_reverse(List ** dest) {
+    List * list = *dest;
+    int pre_sorted_flag = list->sorted;
     for (int i = 0; i < (*dest)->length / 2; i++) {
         list_swap(dest, i, -1-i);
     }
+    list->sorted = pre_sorted_flag * -1;
 }
 
 long long list_sum(List ** src) {
@@ -407,4 +438,5 @@ void list_map(List ** dest, long long (* func)(long long value)) {
     list_iter(list) {
         it->value = func(it->value);
     }
+    list->sorted = 0;
 }

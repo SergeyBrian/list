@@ -17,6 +17,7 @@ struct Node {
 struct List {
     struct Node * begin;
     int length;
+    int sorted;
 };
 
 typedef struct Node Node;
