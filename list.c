@@ -205,7 +205,16 @@ int list_index(List **src, long long int value) {
     int pos = 0;
     list_iter(list) {
         if (it->value == value) return pos;
-        it = it->next;
+        if (list->sorted) {
+            switch (list->sorted) {
+                case -1:
+                    if (value < it->value) return -1;
+                    break;
+                case 1:
+                    if (value > it->value) return 1;
+                    break;
+            }
+        }
         pos++;
     }
     return -1;
