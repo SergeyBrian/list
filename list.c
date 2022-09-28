@@ -71,27 +71,24 @@ Node * list_get_node(List ** src, int pos) {
     if (list->begin == NULL || pos >= list_len(src)) {
         return NULL;
     }
-    Node * it = list->begin;
     int i = 0;
-    while (it->next != NULL) {
+    Node * node = list->begin;
+    list_iter(list) {
+        node = it;
         if (i == pos) {
             break;
         }
         i++;
-        it = it->next;
     }
-    return it;
+    return node;
 }
 
 long long list_get(List ** src, int pos) {
-    Node * it = list_get_node(src, pos);
-    return it->value;
+    return list_get_node(src, pos)->value;
 }
 
 void list_replace(List ** dest, int pos, long long value) {
-    Node * it = list_get_node(dest, pos);
-
-    it->value = value;
+    list_get_node(dest, pos)->value = value;
 }
 
 void list_insert(List ** dest, int pos, long long value) {
@@ -190,14 +187,13 @@ char * list_to_str(List ** src) {
 
 int list_index(List **src, long long int value) {
     List * list = *src;
+    if (list->begin == NULL) return -1;
+
     int pos = 0;
-    if (list->begin != NULL) {
-        Node * it = list->begin;
-        while (it->value == value || it->next != NULL) {
-            if (it->value == value) return pos;
-            it = it->next;
-            pos++;
-        }
+    list_iter(list) {
+        if (it->value == value) return pos;
+        it = it->next;
+        pos++;
     }
     return -1;
 }
