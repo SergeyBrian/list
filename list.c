@@ -285,11 +285,10 @@ void list_merge(List * dest, List * src) {
 }
 
 void destroy_node(Node * node) {
-    if (node->next == NULL) {
-        free(node);
-        return;
+    if (node->next != NULL) {
+        destroy_node(node->next);
     }
-    destroy_node(node->next);
+    free(node);
     node->next = NULL;
 }
 
